@@ -1,4 +1,16 @@
-class Kalkulator:
+class SingletonMeta(type):
+    """Metaklasa, która zapewnia, że istnieje tylko jedna instancja klasy."""
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+
+
+
+class Kalkulator(metaclass=SingletonMeta):
     def __init__(self, liczba1=0, liczba2=0):
         self.liczba1 = liczba1
         self.liczba2 = liczba2
@@ -22,8 +34,10 @@ class Kalkulator:
         self.liczba2 = liczba2
 
 class Historia(Kalkulator):
-    def __init__(self, liczba1=0, liczba2=0):
-        super().__init__(liczba1, liczba2)
+    #def __init__(self, liczba1=0, liczba2=0):
+    def __init__(self):
+        #super().__init__(liczba1, liczba2)
+        #super(Historia, self).__init__()
         self.lista_liczba1 = []  # Lista przechowująca historię pierwszej liczby
         self.lista_liczba2 = []  # Lista przechowująca historię drugiej liczby
 
@@ -39,7 +53,7 @@ class Historia(Kalkulator):
 
 # Pętla do wykonywania działań
 his = Historia()
-
+his2 = Historia()
 
 while True:
 
@@ -59,7 +73,7 @@ while True:
         his.suma()
         his.mnozenie()
         his.dzielenie()
-        his.aktualizuj()
+        his2.aktualizuj()
         his.wypisz_historie()
 
 
